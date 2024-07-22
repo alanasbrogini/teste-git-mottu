@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:latest
+    container_name: postgres
+    environment:
+      POSTGRES_USER: user_alana
+      POSTGRES_PASSWORD: mottu123
+      POSTGRES_DB: alana_database
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - joomla-network
+
+  joomla:
+    image: joomla:latest
+    container_name: joomla
+    ports:
+      - "8090:80"
+    environment:
+      JOOMLA_DB_HOST: postgres
+      JOOMLA_DB_USER: user_alana
+      JOOMLA_DB_PASSWORD: mottu123
+      JOOMLA_DB_NAME: alana_database
+      JOOMLA_DB_TYPE: psql
+    networks:
+      - joomla-network
+    depends_on:
+      - postgres
+
+volumes:
+  postgres_data:
+    driver: local
+
+networks:
+  joomla-network:
+    driver: bridge
