@@ -36,3 +36,4 @@ volumes:
 networks:
   joomla-network:
     driver: bridge
+    
